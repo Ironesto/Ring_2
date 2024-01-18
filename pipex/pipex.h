@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:27 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/18 04:31:52 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:52:28 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,10 @@
 
 	//open
 # include <fcntl.h>
+
+# include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <errno.h>
 
 #endif
