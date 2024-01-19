@@ -6,28 +6,28 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:27 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/18 04:52:28 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/19 05:57:20 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-	//printf
 # include <stdio.h>
-
-	//write
 # include <unistd.h>
-
-	//libft
 # include "./libft/libft.h"
-
-	//open
 # include <fcntl.h>
-
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
+
+typedef struct s_data
+{
+	char **rout;
+	char *wanted;
+	char **comm1;
+	char **comm2;
+}	t_data;
 
 #endif
