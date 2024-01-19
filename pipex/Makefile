@@ -6,7 +6,7 @@
 #    By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/13 18:40:23 by gpaez-ga          #+#    #+#              #
-#    Updated: 2024/01/13 18:40:24 by gpaez-ga         ###   ########.fr        #
+#    Updated: 2024/01/19 18:35:04 by gpaez-ga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 CCFLAGS = -Wall -Wextra -Werror
 
 NAME = pipex
-SRC = main.c
+SRC = main.c commands.c
 
 OBJ = $(SRC:.c=.o)
 
