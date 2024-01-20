@@ -1,43 +1,40 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/13 18:40:23 by gpaez-ga          #+#    #+#              #
-#    Updated: 2024/01/19 18:35:04 by gpaez-ga         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = 	pipex
+SRC  :=	$(wildcard ./mandatory/*.c)
+SRC_B := $(wildcard ./bonus/*.c)
 
-RM = rm -f
-
-CC = gcc
-CCFLAGS = -Wall -Wextra -Werror
-
-NAME = pipex
-SRC = main.c commands.c
-
-OBJ = $(SRC:.c=.o)
-
-LIBFT = libft
+OBJS        = $(SRC:.c=.o)
+OBJS_B      = $(SRC_B:.c=.o)
+CC	        = gcc
+CFLAGS      = -Wall -Werror -Wextra
+GLFW_FLAGS  = -ldl -lglfw -lm
+#GLFW_FLAGS = -lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/ -lm
+LIBFT_PATH  = ./libft
+RM	        = rm -f
 
 .c.o:
-	$(CC) -c $< -o $(<:.c=.o)
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	make -C $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT)/libft.a -o $(NAME)
-	
+libmlx:
+	make -C $(MLX42_PATH)
+
+$(NAME): $(OBJS)
+	make -C $(LIBFT_PATH)
+	$(CC) $(OBJS) $(LIBFT_PATH)/libft.a \
+	$(GLFW_FLAGS) -o $(NAME)
+
+bonus: libmlx libft $(OBJS_B)
+	make -C $(LIBFT_PATH)
+	$(CC) $(OBJS_B) $(LIBFT_PATH)/libft.a \
+	$(GLFW_FLAGS) -o $(NAME)
 
 clean:
-	make -C $(LIBFT) clean
-	$(RM) $(OBJ) 
+	make -C $(LIBFT_PATH) clean
+	@$(RM) $(OBJS) $(OBJS_B) && printf "All objects cleaned! :)\n"
 
 fclean:
-	make -C $(LIBFT) fclean
-	$(RM) $(OBJ) $(NAME)
+	make -C $(LIBFT_PATH) fclean
+	@$(RM) $(OBJS) $(OBJS_B) $(NAME) && printf "$(NAME) file cleaned! :)\n"
 
 re: fclean all
