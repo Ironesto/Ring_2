@@ -16,15 +16,12 @@ RM	        = rm -f
 
 all: $(NAME)
 
-libmlx:
-	make -C $(MLX42_PATH)
-
 $(NAME): $(OBJS)
 	make -C $(LIBFT_PATH)
 	$(CC) $(OBJS) $(LIBFT_PATH)/libft.a \
 	$(GLFW_FLAGS) -o $(NAME)
 
-bonus: libmlx libft $(OBJS_B)
+bonus: libft $(OBJS_B)
 	make -C $(LIBFT_PATH)
 	$(CC) $(OBJS_B) $(LIBFT_PATH)/libft.a \
 	$(GLFW_FLAGS) -o $(NAME)

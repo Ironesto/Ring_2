@@ -15,11 +15,13 @@ typedef struct s_data
 	char	**rout;
 	char	**comm1;
 	char	**comm2;
+	char	**commt;
 	char	*wanted;
 	char	*infile;
 	char	*outfile;
 	int		fdin;
 	int		fdout;
+	int		pnum;
 }	t_data;
 
 			//commands.c
@@ -30,5 +32,9 @@ int		ft_search(t_data *data, char *search);
 char	**ft_free(char **str);
 void	ft_error(int i);
 void	ft_allfree(t_data *data);
+void	ft_finish(t_data *data, int *pip);
+
+			//family.c
+int	ft_mother(t_data *data, int *pip,char **argv, char **envp);
 
 #endif
