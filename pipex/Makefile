@@ -5,7 +5,7 @@ SRC_B := $(wildcard ./bonus/*.c)
 OBJS        = $(SRC:.c=.o)
 OBJS_B      = $(SRC_B:.c=.o)
 CC	        = gcc
-CFLAGS      = -Wall -Werror -Wextra
+CFLAGS      = #-Wall -Werror -Wextra
 GLFW_FLAGS  = -ldl -lglfw -lm
 #GLFW_FLAGS = -lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/ -lm
 LIBFT_PATH  = ./libft

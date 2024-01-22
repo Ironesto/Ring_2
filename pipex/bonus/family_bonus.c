@@ -2,13 +2,13 @@
 
 static int	firstson(t_data *data, int *pip, char **envp)
 {
-	if (ft_search(data, data->commt[0]) == 1)
+	if (ft_search(data, data->comm1[0]) == 1)
 		return (ft_error(2), 1);
 	dup2(data->fdin, STDIN_FILENO);
 	dup2(pip[1], STDOUT_FILENO);
 	close(pip[0]);
 	close(pip[1]);
-	execve(data->wanted, data->commt, envp);
+	execve(data->wanted, data->comm1, envp);
 	return (0);
 }
 
@@ -51,7 +51,7 @@ int	ft_mother(t_data *data, int *pip,char **argv, char **envp)
 	}
 	else if (pid < 0)
 		return (1);
-	while (i < data->pnum)
+	while (i < data->pnum - 1)
 	{
 		data->commt = ft_split(argv[i], ' ');
 		pid = fork();
