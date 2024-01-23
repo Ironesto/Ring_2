@@ -27,7 +27,7 @@ char	**ft_routes(char **envp)
 	while (ft_strncmp(envp[i], "PATH=", 5))
 		i++;
 	rout = ft_split(envp[i], ':');
-	rout[0] = &rout[0][5];
+	rout[0] = ft_strdup(&rout[0][5]);
 	while (rout[++k])
 		rout[k] = ft_strjoin(rout[k], "/");
 	return (rout);
@@ -70,7 +70,7 @@ static int	son(t_data *data, int k, char **argv, char **envp)
 {
   	if (ft_search(data, argv, k) == 1)
 		return(1);
-	ft_printf("Borrar esto en son : %s\n", data->commt[0]);
+	//ft_printf("Borrar esto en son : %s\n", data->commt[0]);
 	execve(data->wanted, data->commt, envp);
 	return (0);
 }
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 
 	i = 3;
-	cnum = argc - 3;
+	cnum = argc - 4;
 	ft_init(&data, envp, argc, argv);
 	if (argc - 3 == 1)
 	{
@@ -94,40 +94,47 @@ int	main(int argc, char **argv, char **envp)
 		dup2(data.fdout, STDOUT_FILENO);
 		close(data.fdout);
 		son(&data, 2, argv, envp);
-		return (0);
 	}
 	pipe(pip);
-	dup2(data.fdin, STDIN_FILENO);
-	dup2(pip[1], STDOUT_FILENO);
-	//close(data.fdin);
-	son(&data, 2, argv, envp);
-	close(pip[1]);
-	close(pip[0]);
-	puts("entra");
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(data.fdin, STDIN_FILENO);
+		dup2(pip[1], STDOUT_FILENO);
+		//close(data.fdin);
+		close(pip[1]);
+		close(pip[0]);
+		son(&data, 2, argv, envp);
+	}
 	while (i < argc - 2)
 	{	
 		pipe(pip);
 		pid = fork();
 		if (pid == 0)
 		{
-			puts("entra");
-			dup2(pip[0], STDIN_FILENO);
-			close(pip[0]);
 			dup2(pip[1], STDOUT_FILENO);
+ 			/* dup2(pip[0], STDIN_FILENO); */
+			close(pip[0]);
 			close(pip[1]);
 			son(&data, i, argv, envp);
-			//return (0);
 		}
+		waitpid(pid, &status, 0);
 		i++;
+		dup2(pip[0], 0);
+		close(pip[0]);
+		close(pip[1]);
 	}
-	wait(&status);
-	puts("padre");
-	dup2(pip[0], STDIN_FILENO);
-	close(pip[0]);
-	close(pip[1]);
-	dup2(data.fdout, STDOUT_FILENO);
-	//close(data.fdout);
-	son(&data, i, argv, envp);
-	//ft_printf("\nesta %s\n", argv[argc - 2]);
+	//pipe(pip);
+/* 	pid = fork();
+	if (pid == 0)
+	{
+		dup2(pip[0], STDIN_FILENO);
+		close(pip[0]);
+		close(pip[1]);
+		dup2(data.fdout, STDOUT_FILENO); 
+		//close(data.fdout);
+		son(&data, argc - 2, argv, envp);
+	} */
+	//wait(&status);
 	return (0);
 }
