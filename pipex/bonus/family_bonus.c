@@ -20,8 +20,8 @@ static int	midson(t_data *data, int *pip, char **envp)
 	close(pip[0]);
 	dup2(pip[1], STDOUT_FILENO);
 	close(pip[1]);
-	execve(data->wanted, data->comm1, envp);
-	return (0);
+	execve(data->wanted, data->commt, envp);
+	//return (0);
 }
 
 static int	secondson(t_data *data, int *pip, char **envp)
@@ -51,12 +51,12 @@ int	ft_mother(t_data *data, int *pip,char **argv, char **envp)
 	}
 	else if (pid < 0)
 		return (1);
-	while (i < data->pnum - 1)
+	while (i < data->pnum - 2)
 	{
-		data->commt = ft_split(argv[i], ' ');
-		pid = fork();
 		if (pid == 0)
 		{
+		data->commt = ft_split(argv[i], ' ');
+		pid = fork();
 			if (midson(data, pip, envp) == 1)
 				return (1);
 		}
