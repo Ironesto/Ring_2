@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/21 05:43:03 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:05:51 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_init(t_data *data, char **envp, int argc, char **argv)
 	data->infile = ft_strdup(argv[1]);
 	data->outfile = ft_strdup(argv[argc - 1]);
 	data->fdin = open(data->infile, O_RDONLY);
-	data->pnum = argc - 5;
+	data->pnum = argc - 3;
 }
 
 /* void	ft_compcomm_bonus(int argc, char **argv, t_data *data)

@@ -16,6 +16,29 @@ typedef struct s_data
 	int		fdout;
 }	t_data;
 
+char	**ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	while (i >= 0)
+	{
+		free(str[i]);
+		i--;
+	}
+	free (str);
+	return (NULL);
+}
+
+void	ft_allfree(t_data *data)
+{
+	ft_free(data->rout);
+	ft_free(data->commt);
+	free(data->wanted);
+}
+
 char	**ft_routes(char **envp)
 {
 	int	i;
@@ -74,17 +97,25 @@ static int	son(t_data *data, int k, char **argv, char **envp)
 	execve(data->wanted, data->commt, envp);
 	return (0);
 }
+void	ft_finish(t_data *data, int *pip)
+{
+	close(pip[0]);
+	close(pip[1]);
+	close(data->fdin);
+	close(data->fdout);
+	ft_allfree(data);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
-	int 	pip[2];
+	int 	pip[10][2];
 	int		pid;
 	int		cnum;
 	t_data	data;
 	int		i;
 	int		status;
 
-	i = 3;
+	i = 4;
 	cnum = argc - 4;
 	ft_init(&data, envp, argc, argv);
 	if (argc - 3 == 1)
@@ -95,37 +126,48 @@ int	main(int argc, char **argv, char **envp)
 		close(data.fdout);
 		son(&data, 2, argv, envp);
 	}
-	pipe(pip);
+	pipe(pip[0]);
 	pid = fork();
 	if (pid == 0)
 	{
+		close(pip[0][0]);
 		dup2(data.fdin, STDIN_FILENO);
-		dup2(pip[1], STDOUT_FILENO);
+		dup2(pip[0][1], STDOUT_FILENO);
 		//close(data.fdin);
-		close(pip[1]);
-		close(pip[0]);
+		//close(pip[0][1]);
 		son(&data, 2, argv, envp);
 	}
-	while (i < argc - 2)
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(pip[0][0], STDIN_FILENO);
+		dup2(pip[1][1], STDOUT_FILENO);
+		//close(data.fdin);
+		close(pip[1][1]);
+		close(pip[0][0]);
+		son(&data, 3, argv, envp);
+	}
+/* 	while (i < argc - 2)
 	{	
 		pipe(pip);
 		pid = fork();
 		if (pid == 0)
 		{
 			dup2(pip[1], STDOUT_FILENO);
- 			/* dup2(pip[0], STDIN_FILENO); */
+ 			dup2(pip[0], STDIN_FILENO); 
 			close(pip[0]);
 			close(pip[1]);
 			son(&data, i, argv, envp);
 		}
-		waitpid(pid, &status, 0);
+		//waitpid(pid, &status, 0);
+		ft_printf("%d %s\n", i, argv[i]);
 		i++;
 		dup2(pip[0], 0);
 		close(pip[0]);
 		close(pip[1]);
-	}
-	//pipe(pip);
-/* 	pid = fork();
+	} */
+	pipe(pip);
+	pid = fork();
 	if (pid == 0)
 	{
 		dup2(pip[0], STDIN_FILENO);
@@ -134,7 +176,10 @@ int	main(int argc, char **argv, char **envp)
 		dup2(data.fdout, STDOUT_FILENO); 
 		//close(data.fdout);
 		son(&data, argc - 2, argv, envp);
-	} */
-	//wait(&status);
+	}
+/* 	close(pip[1]);
+	close(pip[0]); */
+	wait(&status);
+	//ft_finish(&data, pip);
 	return (0);
 }

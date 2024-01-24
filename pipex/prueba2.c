@@ -70,50 +70,48 @@ static int	son(t_data *data, int k, char **argv, char **envp)
 	return (0);
 }
 
+int exec(char **argv, char **envp, int i) 
+{
+    int fd[2];
+    int status;
+    int has_pipe = argv[i] && !strcmp(argv[i], "|");
+
+    if (has_pipe && pipe(fd) == -1)
+        return err("error: fatal\n");
+
+    int pid = fork();
+    if (!pid) 
+    {
+        argv[i] = 0;
+        if (has_pipe && (dup2(fd[1], 1) == -1 || close(fd[0]) == -1 || close(fd[1]) == -1))
+            return err("error: fatal\n");
+        execve(*argv, argv, envp);
+        return err("error: cannot execute "), err(*argv), err("\n");
+    }
+
+    waitpid(pid, &status, 0);
+    if (has_pipe && (dup2(fd[0], 0) == -1 || close(fd[0]) == -1 || close(fd[1]) == -1))
+        return err("error: fatal\n");
+    return WIFEXITED(status) && WEXITSTATUS(status);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	int	pip[10][2];
+	int	pip[2];
 	int	i;
-	int	pid[10];
+	int	pid;
+	int status;
 	t_data	data;
 
-	i = 2;
-	ft_init(&data, envp, argc, argv);
-	pipe(pip[0]);
-	pid[0] = fork();
-	if (pid[0] == 0)
-	{
-		dup2(data.fdin, 0);
-		dup2(pip[0][1], 1);
-		close(pip[0][0]);
-		close(pip[0][1]);
-		son(&data, i, argv, envp);
-	}
-/* 	while (i < argc - 2)
-	{ */
-		pipe(pip[1]);
-		pid[1] = fork();
-		if (pid[1] == 0)
-		{
-			dup2(pip[0][0], 0);
-			dup2(pip[1][1], 1);
-			close(pip[1][0]);
-			close(pip[1][1]);
-			close(pip[0][1]);
-			close(pip[0][0]);
-			son(&data, 3, argv, envp);
-		}
-		i++;
-/* 	} */
-	//pipe(pip);
-	pid[2] = fork();
-	if (pid[2] == 0)
-	{
-	//pipe(pip);
-	dup2(pip[1][0], 0);
-	dup2(data.fdout, 1);
-	close(pip[1][0]);
-	close(pip[1][1]);
-	son(&data, 4, argv, envp);
-	}
+        while (argv[i] && argv[++i]) 
+        {
+            argv += i;
+            i = 0;
+            while (argv[i] && strcmp(argv[i], "|") && strcmp(argv[i], ";"))
+                i++;
+            if (!strcmp(*argv, "cd"))
+                status = cd(argv, i);
+            else if (i)
+                status = exec(argv, envp, i);
+        }
 }

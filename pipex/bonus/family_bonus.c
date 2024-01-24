@@ -51,12 +51,13 @@ int	ft_mother(t_data *data, int *pip,char **argv, char **envp)
 	}
 	else if (pid < 0)
 		return (1);
-	while (i < data->pnum - 2)
+	while (i < data->pnum)
 	{
+		pipe(pip);
+		pid = fork();
 		if (pid == 0)
 		{
 		data->commt = ft_split(argv[i], ' ');
-		pid = fork();
 			if (midson(data, pip, envp) == 1)
 				return (1);
 		}
