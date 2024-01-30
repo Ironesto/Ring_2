@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/24 14:05:51 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/30 04:41:49 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_error(1), ft_allfree(&data), 1); // usar exit?
 	pipe(pip);
 	ft_mother(&data, pip, argv, envp);
-	wait(&status);
+	//wait(&status);
 	ft_finish(&data, pip);
 	return (0);
 }

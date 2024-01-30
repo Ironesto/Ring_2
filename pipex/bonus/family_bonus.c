@@ -9,7 +9,6 @@ static int	firstson(t_data *data, int *pip, char **envp)
 	close(pip[0]);
 	close(pip[1]);
 	execve(data->wanted, data->comm1, envp);
-	return (0);
 }
 
 static int	midson(t_data *data, int *pip, char **envp)
@@ -21,7 +20,6 @@ static int	midson(t_data *data, int *pip, char **envp)
 	dup2(pip[1], STDOUT_FILENO);
 	close(pip[1]);
 	execve(data->wanted, data->commt, envp);
-	//return (0);
 }
 
 static int	secondson(t_data *data, int *pip, char **envp)
@@ -34,44 +32,45 @@ static int	secondson(t_data *data, int *pip, char **envp)
 	close(pip[1]);
 	dup2(data->fdout, STDOUT_FILENO);
 	execve(data->wanted, data->comm2, envp);
-	return (0);
 }
 
 int	ft_mother(t_data *data, int *pip,char **argv, char **envp)
 {
 	int	pid;
 	int	i;
+	int	status;
 
 	i = 3;
+	pipe(pip);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (firstson(data, pip, envp) == 1)
-			return (1);
+		firstson(data, pip, envp);
 	}
 	else if (pid < 0)
 		return (1);
+	//waitpid(pid, &status, 0);
 	while (i < data->pnum)
 	{
-		pipe(pip);
+		//pipe(pip);
 		pid = fork();
 		if (pid == 0)
 		{
-		data->commt = ft_split(argv[i], ' ');
-			if (midson(data, pip, envp) == 1)
-				return (1);
+			data->commt = ft_split(argv[i], ' ');
+			midson(data, pip, envp);
 		}
 		else if (pid < 0)
 			return (1);
+		waitpid(pid, &status, 0);
 		i++;
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		if (secondson(data, pip, envp) == 1)
-			return (1);
+		secondson(data, pip, envp);
 	}
 	else if (pid < 0)
 		return (1);
+	waitpid(pid, &status, 0);
 	return (0);
 }

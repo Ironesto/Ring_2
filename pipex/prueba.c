@@ -108,65 +108,74 @@ void	ft_finish(t_data *data, int *pip)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int 	pip[10][2];
+	int 	pip[2];
 	int		pid;
 	int		cnum;
 	t_data	data;
 	int		i;
 	int		status;
 
-	i = 4;
+	i = 2;
 	cnum = argc - 4;
-	ft_init(&data, envp, argc, argv);
-	if (argc - 3 == 1)
+ 	ft_init(&data, envp, argc, argv);
+/*	if (argc - 3 == 1)
 	{
 		dup2(data.fdin, STDIN_FILENO);
 		close(data.fdin);
 		dup2(data.fdout, STDOUT_FILENO);
 		close(data.fdout);
-		son(&data, 2, argv, envp);
+		son(&data, i, argv, envp);
 	}
-	pipe(pip[0]);
+	pipe(pip);
 	pid = fork();
 	if (pid == 0)
 	{
-		close(pip[0][0]);
+		close(pip[0]);
 		dup2(data.fdin, STDIN_FILENO);
-		dup2(pip[0][1], STDOUT_FILENO);
+		dup2(pip[1], STDOUT_FILENO);
 		//close(data.fdin);
 		//close(pip[0][1]);
-		son(&data, 2, argv, envp);
+		son(&data, i, argv, envp);
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(pip[0][0], STDIN_FILENO);
-		dup2(pip[1][1], STDOUT_FILENO);
+		dup2(pip[0], STDIN_FILENO);
+		dup2(pip[1], STDOUT_FILENO);
 		//close(data.fdin);
-		close(pip[1][1]);
-		close(pip[0][0]);
-		son(&data, 3, argv, envp);
-	}
-/* 	while (i < argc - 2)
+		close(pip[1]);
+		close(pip[0]);
+		son(&data, i, argv, envp);
+	} */
+	while (i < argc)
 	{	
 		pipe(pip);
+		if (i == 2)
+		{
+ 			dup2(data.fdin, STDIN_FILENO); 
+		}
+		else if (i != argc - 2 && i != 2)
+		{
+			dup2(pip[0], STDIN_FILENO);
+			dup2(pip[1], STDOUT_FILENO);
+		}
+		if (i == argc - 2)
+		{
+			perror("entra");
+ 			dup2(data.fdout, STDOUT_FILENO); 
+		}
+		close(pip[0]);
+		close(pip[1]);
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(pip[1], STDOUT_FILENO);
- 			dup2(pip[0], STDIN_FILENO); 
-			close(pip[0]);
-			close(pip[1]);
 			son(&data, i, argv, envp);
 		}
-		//waitpid(pid, &status, 0);
-		ft_printf("%d %s\n", i, argv[i]);
+		//ft_printf("%d %s\n", i, argv[i]);
 		i++;
-		dup2(pip[0], 0);
-		close(pip[0]);
-		close(pip[1]);
-	} */
-	pipe(pip);
+		waitpid(pid, &status, 0);
+	}
+/* 	pipe(pip);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -176,10 +185,10 @@ int	main(int argc, char **argv, char **envp)
 		dup2(data.fdout, STDOUT_FILENO); 
 		//close(data.fdout);
 		son(&data, argc - 2, argv, envp);
-	}
+	} */
 /* 	close(pip[1]);
 	close(pip[0]); */
-	wait(&status);
+	//wait(&status);
 	//ft_finish(&data, pip);
 	return (0);
 }
