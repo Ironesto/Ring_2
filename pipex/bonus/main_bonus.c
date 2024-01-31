@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/31 02:59:56 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/31 04:50:06 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,17 @@ void son(t_data *data, char *cmd, char **envp)
 	}
 }
 
+void ft_temp(char *wtd)
+{
+	//int fd[2];
+	char *str;
+	//char *str2;
+
+	str = get_next_line(STDIN_FILENO);
+		//str = ft_strjoin(str, "a");
+	//ft_printf("%s\n", str);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
@@ -69,11 +80,22 @@ int	main(int argc, char **argv, char **envp)
 	int		fdin;
 	int		fdout;
 
-	fdin = open(argv[1], O_RDONLY);
 	fdout = open(argv[argc - 1], O_WRONLY);
 	i = 2;
 	ft_init(&data, envp, argv);
-	dup2(fdin, STDIN_FILENO);
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+	{
+		fdin = open(".tmp", O_RDWR, O_CREAT);
+		ft_temp(argv[2]);
+		return(0);
+		i = 3;
+	}
+	else
+	{
+		fdin = open(argv[1], O_RDONLY);
+		dup2(fdin, STDIN_FILENO);
+		i = 2;	
+	}
 	while (i < argc - 2)
 	{
 		son(&data, argv[i], envp);
