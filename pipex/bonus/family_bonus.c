@@ -11,14 +11,13 @@ static int	firstson(t_data *data, int *pip, char **envp)
 	execve(data->wanted, data->comm1, envp);
 }
 
-static int	midson(t_data *data, int *pip, char **envp)
+static int	midson(t_data *data, char **envp)
 {
+	int	pip[2];
+
+	pipe(pip);
 	if (ft_search(data, data->commt[0]) == 1)
 		return (ft_error(2), 1);
-	dup2(pip[0], STDIN_FILENO);
-	close(pip[0]);
-	dup2(pip[1], STDOUT_FILENO);
-	close(pip[1]);
 	execve(data->wanted, data->commt, envp);
 }
 
@@ -56,12 +55,17 @@ int	ft_mother(t_data *data, int *pip,char **argv, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
+			close(pip[0]);
+			dup2(pip[1], STDOUT_FILENO);
 			data->commt = ft_split(argv[i], ' ');
-			midson(data, pip, envp);
+			midson(data, envp);
 		}
-		else if (pid < 0)
-			return (1);
-		waitpid(pid, &status, 0);
+		else
+		{
+			close(pip[1]);
+			dup2(pip[0], STDIN_FILENO);
+			waitpid(pid, &status, 0);
+		}
 		i++;
 	}
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/30 04:41:49 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/31 02:59:56 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,68 @@ void ft_leaks()
 	system("leaks -q 'pipex'");
 }
 
-void	ft_init(t_data *data, char **envp, int argc, char **argv)
+void	ft_init(t_data *data, char **envp, char **argv)
 {
 	data->rout = ft_routes(envp);
 	data->wanted = NULL;
-	data->comm1 = ft_split(argv[2], ' ');	//proteger variables?
-	data->comm2 = ft_split(argv[argc - 2], ' ');
-	data->infile = ft_strdup(argv[1]);
-	data->outfile = ft_strdup(argv[argc - 1]);
-	data->fdin = open(data->infile, O_RDONLY);
-	data->pnum = argc - 3;
+	data->commt = NULL;
 }
 
-/* void	ft_compcomm_bonus(int argc, char **argv, t_data *data)
+void	ft_cmd(t_data *data, char *cmd, char **envp)
 {
-	int		i;
-	char	**temp;
-							sin terminar
-	i = 1;
-	temp = NULL;
-	while (++i < argc - 1)
+	int	i;
 
-} */
+	i = -1;
+	data->commt = ft_split(cmd, ' ');
+	while(data->rout[++i])
+	{
+		data->wanted = ft_strjoin(data->rout[i], data->commt[0]);
+		if (access(data->wanted, 0) == 0)
+			execve(data->wanted, data->commt, envp);		
+	}
+	return ;
+}
+
+
+void son(t_data *data, char *cmd, char **envp)
+{
+	int	fd[2];
+	int	pid;
+	int	status;
+
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		ft_cmd(data, cmd, envp);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		waitpid(pid, &status, 0);
+	}
+}
 
 int	main(int argc, char **argv, char **envp)
 {
+	int		i;
 	t_data	data;
-	int	pip[2];
-	int	status;
+	int		fdin;
+	int		fdout;
 
-	//atexit(ft_leaks);	//comprobrar leaks
-
-	ft_init(&data, envp, argc, argv);
-	if (data.fdin < 0)
-		return (ft_error(1), ft_allfree(&data), 1); // usar exit?
-	pipe(pip);
-	ft_mother(&data, pip, argv, envp);
-	//wait(&status);
-	ft_finish(&data, pip);
-	return (0);
+	fdin = open(argv[1], O_RDONLY);
+	fdout = open(argv[argc - 1], O_WRONLY);
+	i = 2;
+	ft_init(&data, envp, argv);
+	dup2(fdin, STDIN_FILENO);
+	while (i < argc - 2)
+	{
+		son(&data, argv[i], envp);
+		i++;
+	}
+	dup2(fdout, STDOUT_FILENO);
+	ft_cmd(&data, argv[argc - 2], envp);
 }

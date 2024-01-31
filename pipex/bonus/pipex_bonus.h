@@ -13,15 +13,8 @@
 typedef struct s_data
 {
 	char	**rout;
-	char	**comm1;
-	char	**comm2;
 	char	**commt;
 	char	*wanted;
-	char	*infile;
-	char	*outfile;
-	int		fdin;
-	int		fdout;
-	int		pnum;
 }	t_data;
 
 			//commands.c

@@ -29,10 +29,7 @@ void	ft_error(int i)
 void	ft_allfree(t_data *data)
 {
 	ft_free(data->rout);
-	ft_free(data->comm1);
-	ft_free(data->comm2);
-	free(data->infile);
-	free(data->outfile);
+	ft_free(data->commt);
 	free(data->wanted);
 }
 
@@ -40,7 +37,5 @@ void	ft_finish(t_data *data, int *pip)
 {
 	close(pip[0]);
 	close(pip[1]);
-	close(data->fdin);
-	close(data->fdout);
 	ft_allfree(data);
 }
