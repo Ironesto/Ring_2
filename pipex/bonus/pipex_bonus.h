@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/31 19:19:50 by gpaez-ga          #+#    #+#             */
+/*   Updated: 2024/01/31 19:20:11 by gpaez-ga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_BONUS_H
-# define PIPEX__BONUS_H
+# define PIPEX_BONUS_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -26,8 +38,5 @@ char	**ft_free(char **str);
 void	ft_error(int i);
 void	ft_allfree(t_data *data);
 void	ft_finish(t_data *data, int *pip);
-
-			//family.c
-int	ft_mother(t_data *data, int *pip,char **argv, char **envp);
 
 #endif

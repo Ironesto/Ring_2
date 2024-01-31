@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/21 03:18:28 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/31 20:30:13 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_leaks()
 {
-	system("leaks -q 'pipex'");
+	system("leaks -q pipex");
 }
 
 void	ft_init(t_data *data, char **envp, char **argv)
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	int	status;
 	//int	pid;
 
-	//atexit(ft_leaks);	//comprobrar leaks
+	atexit(ft_leaks);	//comprobrar leaks
 	
 	if (argc != 5)
 		return (ft_error(0), 1);	//explicacion strerror

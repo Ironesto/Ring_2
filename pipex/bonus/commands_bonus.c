@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:29:33 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/21 03:06:51 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:20:49 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**ft_routes(char **envp)
 {
-	int	i;
-	int	k;
-	char **rout;
+	int		i;
+	int		k;
+	char	**rout;
 
 	i = 0;
 	k = -1;
@@ -34,7 +34,7 @@ int	ft_search(t_data *data, char *search)
 	int	i;
 
 	i = -1;
-	while(data->rout[++i])
+	while (data->rout[++i])
 	{
 		data->wanted = ft_strjoin(data->rout[i], search);
 		if (access(data->wanted, 0) == 0)
