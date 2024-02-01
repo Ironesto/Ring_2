@@ -3,6 +3,7 @@
 		"types.h": "c",
 		"string.h": "c",
 		"pipex.h": "c",
-		"wait.h": "c"
+		"wait.h": "c",
+		"push_swap.h": "c"
 	}
 }
