@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:19:50 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/02/01 02:53:20 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:55:22 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ void	ft_allfree(t_data *data);
 void	ft_finish(t_data *data, int *pip);
 
 			//input_bonus.c
-int	ft_enter(int argc, char **argv, t_data *data);
+int		ft_enter(int argc, char **argv, t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:27 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/21 03:18:10 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:58:55 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	ft_allfree(t_data *data);
 void	ft_finish(t_data *data, int *pip);
 
 			//family.c
-int	ft_mother(t_data *data, int *pip, char **envp);
+int		ft_mother(t_data *data, int *pip, char **envp);
 
 #endif

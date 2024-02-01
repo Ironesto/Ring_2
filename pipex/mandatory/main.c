@@ -6,13 +6,13 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/02/01 03:01:39 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:59:31 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void ft_leaks()
+void	ft_leaks(void)
 {
 	system("leaks -q pipex");
 }
@@ -27,22 +27,22 @@ void	ft_init(t_data *data, char **envp, char **argv)
 	data->outfile = ft_strdup(argv[4]);
 	data->fdin = open(data->infile, O_RDONLY);
 }
+	//atexit(ft_leaks);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	int	pip[2];
-	int	status;
+	int		pip[2];
+	int		status;
 
-	atexit(ft_leaks);	//comprobrar leaks
-	
 	if (argc != 5)
 		return (ft_error(0), 1);
 	ft_init(&data, envp, argv);
 	if (data.fdin < 0)
 		return (ft_error(1), ft_allfree(&data), 1);
 	pipe(pip);
-	ft_mother(&data, pip, envp);
+	if (ft_mother(&data, pip, envp) == 1)
+		return (1);
 	wait(&status);
 	ft_finish(&data, pip);
 	return (0);

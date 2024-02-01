@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/01 18:55:12 by gpaez-ga          #+#    #+#             */
+/*   Updated: 2024/02/01 18:57:08 by gpaez-ga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 
 void	ft_temp(char *wtd, int fdin)
@@ -6,11 +18,11 @@ void	ft_temp(char *wtd, int fdin)
 	char	*str2;
 
 	str = "";
-	write(1,"heredoc> ", 9);
+	write(1, "heredoc> ", 9);
 	str2 = get_next_line(0);
 	while (ft_strncmp(str2, wtd, ft_strlen(str2) - 1))
 	{
-		write(1,"heredoc> ", 9);
+		write(1, "heredoc> ", 9);
 		str = ft_strjoin(str, str2);
 		str2 = get_next_line(0);
 	}
@@ -20,9 +32,8 @@ void	ft_temp(char *wtd, int fdin)
 
 int	here_doc(char *str, t_data *data)
 {
-	int fdin;
-	
-	
+	int	fdin;
+
 	fdin = open(".tmp", O_WRONLY | O_CREAT, 0644);
 	data->fdout = open(".tmp", O_WRONLY | O_CREAT | O_APPEND, 0777);
 	ft_temp(str, fdin);
@@ -37,7 +48,7 @@ int	ft_enter(int argc, char **argv, t_data *data)
 {
 	int	i;
 	int	fdin;
-	
+
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 		return (i = here_doc(argv[2], data));
 	else

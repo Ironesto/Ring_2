@@ -6,13 +6,13 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:40:35 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/02/01 02:53:04 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:56:24 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_leaks()
+void	ft_leaks(void)
 {
 	system("leaks -q pipex");
 }
@@ -50,13 +50,14 @@ void	son(t_data *data, char *cmd, char **envp)
 
 void	last_son(t_data *data, char *str, char **envp)
 {
-	int pid;
-	int status;
+	int	pid;
+	int	status;
+
 	pid = fork();
 	if (pid == 0)
 	{
 		dup2(data->fdout, STDOUT_FILENO);
- 		close(data->fdout);
+		close(data->fdout);
 		ft_cmd(data, str, envp);
 	}
 	else if (pid < 0)
@@ -64,13 +65,12 @@ void	last_son(t_data *data, char *str, char **envp)
 	else
 		waitpid(pid, &status, 0);
 }
+	//atexit(ft_leaks);
 
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
 	t_data	data;
-	
-	atexit(ft_leaks);
 
 	ft_init(&data, envp);
 	i = ft_enter(argc, argv, &data);
@@ -81,5 +81,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	last_son(&data, argv[argc - 2], envp);
 	unlink(".tmp");
+	ft_allfree(&data);
 	return (0);
 }

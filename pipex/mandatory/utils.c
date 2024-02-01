@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/01 18:58:33 by gpaez-ga          #+#    #+#             */
+/*   Updated: 2024/02/01 18:58:48 by gpaez-ga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 char	**ft_free(char **str)
@@ -19,14 +31,13 @@ char	**ft_free(char **str)
 void	ft_error(int i)
 {
 	if (i == 0)
-		write(2,"ERROR\nWrong number of arguments\n",32);
+		write(2, "ERROR\nWrong number of arguments\n", 32);
 	if (i == 1)
 		write(2, "ERROR\nIncorrect infile\n", 23);
 	if (i == 2)
 		write(2, "ERROR\nOrder not found\n", 22);
 	if (i == 3)
 		write(2, "ERROR\nFailed creating child\n", 28);
-
 }
 
 void	ft_allfree(t_data *data)
