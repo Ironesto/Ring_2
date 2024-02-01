@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 18:59:41 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/02/01 18:59:41 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 19:59:44 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	secondson(t_data *data, int *pip, char **envp)
 {
 	if (ft_search(data, data->comm2[0]) == 1)
 		return (ft_error(2), ft_finish(data, pip), 1);
-	data->fdout = open(data->outfile, O_WRONLY | O_CREAT, 0777);
+	data->fdout = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	dup2(pip[0], STDIN_FILENO);
 	close(pip[0]);
 	close(pip[1]);
