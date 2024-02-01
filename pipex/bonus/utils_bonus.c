@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:19:03 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/31 19:19:43 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:07:59 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,19 @@ void	ft_error(int i)
 		write(2, "ERROR\nIncorrect infile\n", 23);
 	if (i == 2)
 		write(2, "ERROR\nOrder not found\n", 22);
+	if (i == 3)
+		write(2, "ERROR\nFailed creating child\n", 28);
 }
 
 void	ft_allfree(t_data *data)
+
 {
-	ft_free(data->rout);
-	ft_free(data->commt);
-	free(data->wanted);
+	if (data->rout)
+		ft_free(data->rout);
+	if (data->commt)
+		ft_free(data->commt);
+	if (data->wanted)
+		free(data->wanted);
 }
 
 void	ft_finish(t_data *data, int *pip)

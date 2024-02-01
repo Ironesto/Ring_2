@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:29:33 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/31 20:40:46 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 00:04:23 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,21 @@ char	**ft_routes(char **envp)
 {
 	int	i;
 	int	k;
-	char **temp;
+	char *temp;
 	char **rout;
 
 	i = 0;
 	k = -1;
+	temp = "";
 	while (ft_strncmp(envp[i], "PATH=", 5))
 		i++;
-	temp = ft_split(envp[i], ':');
-	i = 0;
-	temp[0] = &temp[0][5];
-	while(temp[i])
-		i++;
-	rout = malloc(sizeof(char *) * (i + 1));	//falla malloc
-	while (temp[++k])
+	rout = ft_split(envp[i], ':');
+	rout[0] = &rout[0][5];
+	while (rout[++k])
 	{
-		rout[k] = ft_strjoin(temp[k], "/");
+		temp = ft_strjoin(rout[k], "/");
+		//free(rout[k]);
+		rout[k] = ft_strdup(temp);
 		free(temp);
 	}
 	return (rout);

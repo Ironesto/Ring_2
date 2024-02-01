@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:29:33 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/01/31 19:20:49 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:54:42 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ char	**ft_routes(char **envp)
 	return (rout);
 }
 
-int	ft_search(t_data *data, char *search)
+void	ft_cmd(t_data *data, char *cmd, char **envp)
 {
 	int	i;
 
 	i = -1;
+	data->commt = ft_split(cmd, ' ');
 	while (data->rout[++i])
 	{
-		data->wanted = ft_strjoin(data->rout[i], search);
+		data->wanted = ft_strjoin(data->rout[i], data->commt[0]);
 		if (access(data->wanted, 0) == 0)
-			return (0);
+			execve(data->wanted, data->commt, envp);
 	}
-	return (1);
+	ft_error(2);
+	exit(1) ;
 }

@@ -22,18 +22,27 @@ void	ft_error(int i)
 		write(2,"ERROR\nWrong number of arguments\n",32);
 	if (i == 1)
 		write(2, "ERROR\nIncorrect infile\n", 23);
-	if ( i == 2)
+	if (i == 2)
 		write(2, "ERROR\nOrder not found\n", 22);
+	if (i == 3)
+		write(2, "ERROR\nFailed creating child\n", 28);
+
 }
 
 void	ft_allfree(t_data *data)
 {
-	ft_free(data->rout);
-	ft_free(data->comm1);
-	ft_free(data->comm2);
-	free(data->infile);
-	free(data->outfile);
-	free(data->wanted);
+	if (data->rout)
+		ft_free(data->rout);
+	if (data->comm1)
+		ft_free(data->comm1);
+	if (data->comm2)
+		ft_free(data->comm2);
+	if (data->infile)
+		free(data->infile);
+	if (data->outfile)
+		free(data->outfile);
+	if (data->wanted)
+		free(data->wanted);
 }
 
 void	ft_finish(t_data *data, int *pip)

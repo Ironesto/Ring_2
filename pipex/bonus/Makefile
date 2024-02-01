@@ -4,7 +4,7 @@ CC = gcc
 CCFLAGS = -Wall -Wextra -Werror
 
 NAME = pipex
-SRC = main_bonus.c commands_bonus.c utils_bonus.c
+SRC = main_bonus.c commands_bonus.c utils_bonus.c input_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

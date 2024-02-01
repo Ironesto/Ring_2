@@ -36,7 +36,7 @@ int	ft_mother(t_data *data, int *pip, char **envp)
 			return (1);
 	}
 	else if (pid < 0)
-		return (1);
+		return (ft_error(3), 1);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -44,6 +44,6 @@ int	ft_mother(t_data *data, int *pip, char **envp)
 			return (1);
 	}
 	else if (pid < 0)
-		return (1);
+		return (ft_error(3), 1);
 	return (0);
 }
