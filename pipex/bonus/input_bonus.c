@@ -6,7 +6,7 @@
 /*   By: gpaez-ga <gpaez-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 18:55:12 by gpaez-ga          #+#    #+#             */
-/*   Updated: 2024/02/01 18:57:08 by gpaez-ga         ###   ########.fr       */
+/*   Updated: 2024/02/05 04:22:44 by gpaez-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	ft_temp(char *wtd, int fdin)
 	ft_printf("%s", str);
 }
 
-int	here_doc(char *str, t_data *data)
+int	here_doc(char *str, t_data *data, char *outfl)
 {
 	int	fdin;
 
 	fdin = open(".tmp", O_WRONLY | O_CREAT, 0644);
-	data->fdout = open(".tmp", O_WRONLY | O_CREAT | O_APPEND, 0777);
+	data->fdout = open(outfl, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	ft_temp(str, fdin);
 	close(fdin);
 	fdin = open(".tmp", O_RDONLY);
@@ -50,7 +50,7 @@ int	ft_enter(int argc, char **argv, t_data *data)
 	int	fdin;
 
 	if (!ft_strncmp(argv[1], "here_doc", 8))
-		return (i = here_doc(argv[2], data));
+		return (i = here_doc(argv[2], data, argv[argc - 1]));
 	else
 	{
 		data->fdout = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0777);
